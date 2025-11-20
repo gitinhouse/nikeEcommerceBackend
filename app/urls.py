@@ -1,4 +1,4 @@
-from django.urls import path,include
+from django.urls import path,include,re_path
 from app import views
 
 urlpatterns = [
@@ -10,7 +10,9 @@ urlpatterns = [
     path('google/', views.GoogleLoginApi.as_view(), name='google-login-callback'),
     path('user/', views.UserStatusView.as_view(), name='user-status'),
     
-    path('apple/',views.AppleLoginApi.as_view(),name='apple-login-callback')
+    path('apple/',views.AppleLoginApi.as_view(),name='apple-login-callback'),
+    
+    re_path(r'^.*$', views.index, name='index'), 
     
 ]
 

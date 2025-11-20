@@ -21,17 +21,6 @@ CORS_ALLOWED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True 
 
-# CSRF_COOKIE_DOMAIN = "gl7gpk5d-8000.inc1.devtunnels.ms"
-# SESSION_COOKIE_DOMAIN = "gl7gpk5d-8000.inc1.devtunnels.ms"
-
-# BEFORE: 
-# CSRF_COOKIE_DOMAIN = "gl7gpk5d-8000.inc1.devtunnels.ms"
-# SESSION_COOKIE_DOMAIN = "gl7gpk5d-8000.inc1.devtunnels.ms"
-
-# AFTER: Remove the explicit domain setting during development
-# This allows Django to set the cookie for the host that served the response
-# (i.e., gl7gpk5d-8000.inc1.devtunnels.ms) without forcing a cross-domain context.
-# Comment these lines out:
 CSRF_COOKIE_DOMAIN = None 
 SESSION_COOKIE_DOMAIN = None
 
@@ -85,6 +74,7 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         # 'app.authentication.CustomTokenAuthentication', 
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -120,10 +110,12 @@ CORS_ALLOW_HEADERS = [
 
 ROOT_URLCONF = 'backend.urls'
 
+REACT_APP_DIR = os.path.join(BASE_DIR, 'build')
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'], 
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), REACT_APP_DIR], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -171,7 +163,11 @@ USE_I18N = True
 
 USE_TZ = True
 
-STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    os.path.join(REACT_APP_DIR, 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 

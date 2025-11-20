@@ -23,8 +23,14 @@ from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from rest_framework.authtoken.models import Token 
 import traceback 
+from django.shortcuts import render
+
+
 
 User = get_user_model() 
+
+def index(request):
+    return render(request,'index.html')
 
 class RegisterUserView(generics.CreateAPIView):
     permission_classes = [AllowAny]
@@ -41,41 +47,22 @@ class RegisterUserView(generics.CreateAPIView):
         return Response(serializer.errors , status=status.HTTP_400_BAD_REQUEST)
     
     
-# @method_decorator(ensure_csrf_cookie, name='dispatch')
+
 class LoginUserView(APIView):
     permission_classes = [AllowAny]
-    # authentication_classes = [SessionAuthentication]
     
     def post(self,request , *args , **kwargs):
         serializer = LoginSerializer(data = request.data)
         
-        # if serializer.is_valid():
-        #     user_profile = serializer.validated_data['user_profile']
-        #     login(request, user_profile) 
-            
-        #     user_data = RegisterSerializer(user_profile).data 
-            
-        #     return Response({
-        #         'user': user_data,
-        #     }, status=status.HTTP_200_OK)
-        
-        # return Response(serializer.errors , status= status.HTTP_400_BAD_REQUEST)
-        
         if serializer.is_valid():
             user_profile = serializer.validated_data['user_profile']
             
-            # --- Generate or retrieve the token for this user ---
             token, created = Token.objects.get_or_create(user=user_profile)
-            
-            # You can still use Django's login() for session management if needed, 
-            # but it's redundant if React only cares about the Token header.
-            # login(request, user_profile) 
-            
             user_data = RegisterSerializer(user_profile).data 
             
             return Response({
                 'user': user_data,
-                'token': token.key, # --- RETURN THE TOKEN KEY HERE ---
+                'token': token.key, 
             }, status=status.HTTP_200_OK)
         
         return Response(serializer.errors , status= status.HTTP_400_BAD_REQUEST)
