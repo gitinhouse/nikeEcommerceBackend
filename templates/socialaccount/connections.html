@@ -1,0 +1,118 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% trans "Account Connections" %}</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 40px;
+            max-width: 600px;
+            line-height: 1.6;
+            color: #333;
+        }
+        h1, h2 {
+            color: #000;
+        }
+        .message-success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .form-check {
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        ul.socialaccount_providers {
+            list-style: none;
+            padding: 0;
+        }
+        ul.socialaccount_providers li a {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Display Django Messages (e.g., "The third-party account has been connected.") -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="message-success">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <h1>{% trans "Account Connections" %}</h1>
+
+    {% if form.accounts %}
+    <p>You can sign in to your account using any of the following accounts:</p>
+
+    <form method="post" action="{% url 'socialaccount_connections' %}">
+      {% csrf_token %}
+      <fieldset class="form-group">
+        {% if form.non_field_errors %}
+          <div class="alert-danger">
+              {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        {% for a in form.accounts %}
+        <div class="form-check">
+          <label for="id_account_{{ a.id }}" class="form-check-label">
+          <input id="id_account_{{ a.id }}" type="radio" name="account" value="{{ a.id }}">
+          {{ a.get_provider.name }} ({{ a }})
+          </label>
+        </div>
+        {% endfor %}
+
+      </fieldset>
+      <button type="submit" name="action_remove">{% trans "Remove Selected Account" %}</button>
+    </form>
+    {% else %}
+    <p>You currently do not have any third-party accounts connected.</p>
+    {% endif %}
+
+    <h2>{% trans "Add a Third-Party Account" %}</h2>
+
+    <ul class="socialaccount_providers">
+      <!-- This snippet renders links for all available providers (e.g., Google) -->
+      {% include "socialaccount/snippets/provider_list.html" with process="connect" %}
+    </ul>
+
+    <!-- Optional: Add links back to your main site/React App -->
+    <p>
+        <a href="/">Go Home</a> | <a href="{% url 'account_logout' %}">Sign Out</a>
+    </p>
+
+</body>
+</html>

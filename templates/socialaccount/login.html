@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In Via Google</title>
+    <!-- Add your CSS links here if you have any external stylesheet -->
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        .container { max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        h1 { color: #333; }
+        p { margin-bottom: 20px; }
+        .button { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; cursor: pointer; border-radius: 5px; }
+        .button:hover { background-color: #45a049; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sign In Via Google</h1>
+        <p>You are about to sign in using your Google account.</p>
+        
+        <p>Please click "Continue" to proceed.</p>
+
+        <!-- The form action URL is generated dynamically by Django -->
+        <form method="post" action="{{ action_url }}">
+            <!-- CSRF token is essential for security in Django -->
+            {% csrf_token %}
+            
+            <!-- This hidden input is necessary for allauth flow -->
+            <input type="hidden" name="process" value="connect" />
+            
+            <button type="submit" class="button">Continue</button>
+        </form>
+    </div>
+</body>
+</html>
