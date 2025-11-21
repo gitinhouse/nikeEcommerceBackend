@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','gl7gpk5d-8000.inc1.devtunnels.ms','your-app-name.herokuapp.com' ]
+ALLOWED_HOSTS = ['127.0.0.1','localhost','gl7gpk5d-8000.inc1.devtunnels.ms','nike-ecommerce-backend.vercel.app' ]
 
 
 
@@ -207,8 +207,8 @@ SOCIALACCOUNT_PROVIDERS = {
 # BASE_APP_URL = "http://localhost:5173"
 # BASE_API_URL = "http://localhost:8000"
 
-BASE_APP_URL = "https://gl7gpk5d-5173.inc1.devtunnels.ms"
-BASE_API_URL = "https://gl7gpk5d-8000.inc1.devtunnels.ms"
+BASE_APP_URL = "https://nike-ecommerce-backend.vercel.app/"
+BASE_API_URL = "https://nike-ecommerce-backend.vercel.app/"
 
 GOOGLE_OAUTH_CLIENT_ID = os.environ.get("GOOGLE_OAUTH_CLIENT_ID")
 GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get("GOOGLE_OAUTH_CLIENT_SECRET")
