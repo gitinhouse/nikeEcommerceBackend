@@ -157,26 +157,32 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-if 'DATABASE_URL' not in os.environ:
-    print("FATAL ERROR: DATABASE_URL environment variable is missing!")
-    raise ValueError("DATABASE_URL must be set!") 
-else:
-    print(f"DEBUG: DATABASE_URL found: {os.environ.get('DATABASE_URL')}")
-    
 if 'DATABASE_URL' in os.environ:
-    DATABASES = {
-        'default': dj_database_url.config(
-            conn_max_age=600,
-            ssl_require=True,
-        )
-    }
+    try:
+        DATABASES = {
+            'default': dj_database_url.config(
+                conn_max_age=600,
+                ssl_require=True,
+            )
+        }
+        print("DEBUG: Using DATABASE_URL configuration.")
+    except Exception as e:
+        print(f"ERROR: Failed to configure DATABASE_URL. Falling back to SQLite: {e}")
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
+    print("DEBUG: DATABASE_URL not in environment. Using SQLite.")
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
