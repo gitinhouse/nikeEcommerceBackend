@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = False
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost','gl7gpk5d-8000.inc1.devtunnels.ms','nike-ecommerce-backend.vercel.app','.vercel.app' ]
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'whitenoise.runserver_nostatic',
     
-    # 'django.contrib.sites',
+    'django.contrib.sites',
     
     'app',
     'rest_framework',
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     
     'rest_framework.authtoken',
 ]
+SITE_ID = 2
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -124,13 +125,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend.wsgi.application'
 
 
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3')),
+#         conn_max_age=600,
+#         ssl_require=True,
+#     )
+# }
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///{}'.format(os.path.join(BASE_DIR, 'db.sqlite3')),
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.config(
         conn_max_age=600,
         ssl_require=True,
     )
-}
 
 
 
