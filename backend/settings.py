@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['127.0.0.1','localhost','gl7gpk5d-8000.inc1.devtunnels.ms','nike-ecommerce-backend.vercel.app' ]
+ALLOWED_HOSTS = ['127.0.0.1','localhost','gl7gpk5d-8000.inc1.devtunnels.ms','nike-ecommerce-backend.vercel.app','.vercel.app' ]
 
 
 
