@@ -156,6 +156,13 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #         'PORT': config('5432', cast=int),
 #     }
 # }
+
+if 'DATABASE_URL' not in os.environ:
+    print("FATAL ERROR: DATABASE_URL environment variable is missing!")
+    raise ValueError("DATABASE_URL must be set!") 
+else:
+    print(f"DEBUG: DATABASE_URL found: {os.environ.get('DATABASE_URL')}")
+    
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.config(
