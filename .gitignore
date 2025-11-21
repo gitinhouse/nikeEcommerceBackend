@@ -3,3 +3,20 @@ env/
 __pycache__
 *.pyc
 db.sqlite3
+
+# Django static files
+staticfiles/
+mediafiles/
+media/
+
+# Node.js dependencies (from the React part)
+node_modules/
+
+# React build folder (unless you are committing the build artifacts, 
+# which is required for the setup described previously. Keep this commented out 
+# if you are committing the 'build' folder to Git.)
+# build/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
